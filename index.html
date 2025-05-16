@@ -1,26 +1,213 @@
-function FakeNewsCard() {
-    const [miData, setMiData] = React.useState(null);
-    const [modelData, setModelData] = React.useState(null);
-    
-    React.useEffect(() => {
-        fetch('/kaggle/working/mi_scores.json')
-            .then(res => res.json())
-            .then(data => setMiData(data));
-        fetch('/kaggle/working/model_comparison.json')
-            .then(res => res.json())
-            .then(data => setModelData(data));
-    }, []);
-    
-    React.useEffect(() => {
-        if (miData) Plotly.newPlot('mi_plot', miData.data, miData.layout);
-        if (modelData) Plotly.newPlot('model_plot', modelData.data, modelData.layout);
-    }, [miData, modelData]);
-    
-    return (
-        <div className="bg-card p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold mb-4 text-primary">Fake News Detection</h2>
-            <div id="mi_plot" className="h-96"></div>
-            <div id="model_plot" className="h-96"></div>
-        </div>
-    );
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection Reading Card</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.9/babel.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modern-theme { background: linear-gradient(135deg, #e0e7ff, #ffffff); color: #1f2937; }
+        .modern-theme .bg-card { background: #ffffff; }
+        .modern-theme .text-primary { color: #4b5563; }
+        .modern-theme .bg-button { background: #2563eb; }
+        .git-theme { background: #1a1a1a; color: #00ff00; }
+        .git-theme .bg-card { background: #2a2a2a; }
+        .git-theme .text-primary { color: #00ff00; }
+        .git-theme .bg-button { background: #ff00ff; }
+        .rainbow-theme {
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, violet);
+            color: #ffffff;
+            animation: gradientShift 10s ease infinite;
+        }
+        .rainbow-theme .bg-card { background: rgba(255, 255, 255, 0.8); }
+        .rainbow-theme .text-primary { color: #333; }
+        .rainbow-theme .bg-button { background: #6200ea; }
+        .neon-theme {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #39ff14;
+        }
+        .neon-theme .bg-card { background: rgba(0, 0, 0, 0.7); }
+        .neon-theme .text-primary { color: #39ff14; }
+        .neon-theme .bg-button { background: #ff007a; }
+        .pastel-theme {
+            background: linear-gradient(135deg, #fce7f3, #e6e6fa);
+            color: #4b0082;
+        }
+        .pastel-theme .bg-card { background: #fff0f5; }
+        .pastel-theme .text-primary { color: #4b0082; }
+        .pastel-theme .bg-button { background: #dda0dd; }
+        .monochrome-theme {
+            background: linear-gradient(135deg, #d3d3d3, #ffffff);
+            color: #333333;
+        }
+        .monochrome-theme .bg-card { background: #f5f5f5; }
+        .monochrome-theme .text-primary { color: #333333; }
+        .monochrome-theme .bg-button { background: #696969; }
+        .cyberpunk-theme {
+            background: linear-gradient(135deg, #2b1331, #0d324d);
+            color: #00f7ff;
+        }
+        .cyberpunk-theme .bg-card { background: rgba(0, 0, 0, 0.8); }
+        .cyberpunk-theme .text-primary { color: #00f7ff; }
+        .cyberpunk-theme .bg-button { background: #ff00aa; }
+        .retro-theme {
+            background: linear-gradient(135deg, #ffd1dc, #98ff98);
+            color: #8b008b;
+        }
+        .retro-theme .bg-card { background: #ffffe0; }
+        .retro-theme .text-primary { color: #8b008b; }
+        .retro-theme .bg-button { background: #ff4500; }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .transition-all { transition: all 0.3s ease; }
+        .hover\:scale-105:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div id="root" className="min-h-screen"></div>
+    <script type="text/babel">
+        const { motion } = window.FramerMotion;
+
+        function App() {
+            const [theme, setTheme] = React.useState('modern');
+            const [kaggleData, setKaggleData] = React.useState(null);
+            const [conceptStep, setConceptStep] = React.useState(0);
+
+            React.useEffect(() => {
+                fetch('http://localhost:5000/get_kaggle_outputs')
+                    .then(res => res.json())
+                    .then(data => setKaggleData(data))
+                    .catch(err => console.error('Error fetching Kaggle data:', err));
+            }, []);
+
+            React.useEffect(() => {
+                if (kaggleData && kaggleData.mi_scores) {
+                    Plotly.newPlot('mi_plot', kaggleData.mi_scores.data, kaggleData.mi_scores.layout);
+                }
+                if (kaggleData && kaggleData.model_comparison) {
+                    Plotly.newPlot('model_plot', kaggleData.model_comparison.data, kaggleData.model_comparison.layout);
+                }
+            }, [kaggleData]);
+
+            const conceptSteps = [
+                {
+                    title: "What is Fake News Detection?",
+                    content: "Fake news detection identifies false or misleading articles using ML and NLP. For this dataset, it classifies news as 'real' or 'fake' based on text and metadata."
+                },
+                {
+                    title: "Ant Colony Optimization (ACO)",
+                    content: "ACO mimics ant foraging to select key features (e.g., 'misinformation'). Ants choose features using mutual information and update pheromones based on model accuracy."
+                },
+                {
+                    title: "Clustering-Based Mutual Information",
+                    content: "Clusters text features (e.g., TF-IDF terms) to capture non-linear dependencies, improving feature selection for fake news detection compared to traditional MI."
+                },
+                {
+                    title: "Embedded-Filter ACO",
+                    content: "Combines filter-based speed (clustering-based MI) with wrapper-like optimization (ACO). Selects ~150-200 features, achieving ~90% accuracy."
+                }
+            ];
+
+            return (
+                <div className={`${theme}-theme min-h-screen transition-all`}>
+                    <header className="sticky top-0 bg-opacity-90 backdrop-blur-md p-4 shadow-md">
+                        <nav className="flex justify-between items-center max-w-7xl mx-auto">
+                            <h1 className="text-2xl font-bold text-primary">Fake News Detection Explorer</h1>
+                            <select
+                                value={theme}
+                                onChange={(e) => setTheme(e.target.value)}
+                                className="p-2 border rounded focus:ring-2 focus:ring-blue-500 transition-all bg-card text-primary"
+                                aria-label="Select color theme"
+                            >
+                                <option value="modern">Modern</option>
+                                <option value="git">Git Dark</option>
+                                <option value="rainbow">Rainbow Gradient</option>
+                                <option value="neon">Neon</option>
+                                <option value="pastel">Pastel</option>
+                                <option value="monochrome">Monochrome</option>
+                                <option value="cyberpunk">Cyberpunk</option>
+                                <option value="retro">Retro</option>
+                            </select>
+                        </nav>
+                    </header>
+                    <main className="container mx-auto p-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <motion.div
+                                className="bg-card p-6 rounded-lg shadow-lg transition-all"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <h2 className="text-xl font-semibold mb-4 text-primary">Understanding Fake News Detection</h2>
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-medium text-primary">{conceptSteps[conceptStep].title}</h3>
+                                    <p className="text-primary">{conceptSteps[conceptStep].content}</p>
+                                </div>
+                                <div className="flex justify-between">
+                                    <button
+                                        onClick={() => setConceptStep(Math.max(0, conceptStep - 1))}
+                                        disabled={conceptStep === 0}
+                                        className="bg-button text-white p-2 rounded hover:scale-105 transition-all disabled:opacity-50"
+                                    >
+                                        Previous
+                                    </button>
+                                    <button
+                                        onClick={() => setConceptStep(Math.min(conceptSteps.length - 1, conceptStep + 1))}
+                                        disabled={conceptStep === conceptSteps.length - 1}
+                                        className="bg-button text-white p-2 rounded hover:scale-105 transition-all disabled:opacity-50"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                className="bg-card p-6 rounded-lg shadow-lg transition-all"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                            >
+                                <h2 className="text-xl font-semibold mb-4 text-primary">Fake News Detection Results</h2>
+                                {kaggleData && (
+                                    <div>
+                                        <p className="text-primary mb-2">Top Selected Features:</p>
+                                        <ul className="list-disc pl-5 mb-4 text-primary">
+                                            {kaggleData.selected_features.map(f => (
+                                                <li key={f}>{f}</li>
+                                            ))}
+                                        </ul>
+                                        <div id="mi_plot" className="h-96 mt-4 rounded-lg overflow-hidden"></div>
+                                        <div id="model_plot" className="h-96 mt-4 rounded-lg overflow-hidden"></div>
+                                    </div>
+                                )}
+                            </motion.div>
+
+                            <motion.div
+                                className="bg-card p-6 rounded-lg shadow-lg transition-all"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                            >
+                                <h2 className="text-xl font-semibold mb-4 text-primary">Dataset Overview</h2>
+                                <p className="text-primary mb-4">Synthetic dataset of 20,000 news articles with ~5% missing values in source/author. Balanced real/fake labels.</p>
+                                <p className="text-primary">Run the Kaggle notebook to generate results: <a href=\"https://www.kaggle.com/code/<your-username>/fake-news-detection\" className=\"text-blue-500 underline\">Link</a></p>
+                            </motion.div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
