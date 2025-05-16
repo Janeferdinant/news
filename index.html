@@ -1,0 +1,26 @@
+function FakeNewsCard() {
+    const [miData, setMiData] = React.useState(null);
+    const [modelData, setModelData] = React.useState(null);
+    
+    React.useEffect(() => {
+        fetch('/kaggle/working/mi_scores.json')
+            .then(res => res.json())
+            .then(data => setMiData(data));
+        fetch('/kaggle/working/model_comparison.json')
+            .then(res => res.json())
+            .then(data => setModelData(data));
+    }, []);
+    
+    React.useEffect(() => {
+        if (miData) Plotly.newPlot('mi_plot', miData.data, miData.layout);
+        if (modelData) Plotly.newPlot('model_plot', modelData.data, modelData.layout);
+    }, [miData, modelData]);
+    
+    return (
+        <div className="bg-card p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-4 text-primary">Fake News Detection</h2>
+            <div id="mi_plot" className="h-96"></div>
+            <div id="model_plot" className="h-96"></div>
+        </div>
+    );
+}
