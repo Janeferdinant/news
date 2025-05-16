@@ -1,0 +1,7 @@
+student_id,group,pre_score,post_score
+1,control,70,72
+2,control,75,76
+3,control,68,67
+4,ai,65,75
+5,ai,77,85
+6,ai,72,80
