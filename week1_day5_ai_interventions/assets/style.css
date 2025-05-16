@@ -1,0 +1,77 @@
+/* Base styles */
+body {
+    background: #f4f6fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+
+.report-container {
+    max-width: 700px;
+    background: #fff;
+    margin: 40px auto 24px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(22,22,22,0.08);
+    padding: 32px 28px 40px 28px;
+}
+
+h1, h2 {
+    color: #1a4e8a;
+    margin-top: 0;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.1rem;
+    margin-bottom: 0.5em;
+}
+h2 {
+    font-size: 1.3rem;
+    margin-top: 1.5em;
+}
+
+ul {
+    padding-left: 1.2em;
+    margin-bottom: 1.5em;
+}
+
+li {
+    margin-bottom: 0.5em;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 18px auto 18px auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px #d2dbe8;
+}
+
+/* Plotly or interactive chart container */
+#interactive-plot {
+    margin: 28px 0 20px 0;
+    min-height: 320px;
+}
+
+/* Code blocks */
+code, pre {
+    background: #edeff3;
+    border-radius: 4px;
+    padding: 2px 5px;
+    color: #333;
+    font-size: 0.97em;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+    .report-container {
+        padding: 12px 6px 20px 6px;
+    }
+    h1 {
+        font-size: 1.3rem;
+    }
+    h2 {
+        font-size: 1.1rem;
+    }
+}
