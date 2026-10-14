@@ -25,10 +25,21 @@ function Chart({
       margin: {
         l: 50,
         r: 10,
-        t: 60,
+        t: 70,
         b: 90
       }
     });
+    // Plotly does not wrap titles, so break long ones before the parenthesis and left-align them
+    if (layout.title && layout.title.text) {
+      layout.title = Object.assign({}, layout.title, {
+        text: layout.title.text.replace(' (', '<br>('),
+        x: 0.02,
+        xanchor: 'left',
+        font: {
+          size: 15
+        }
+      });
+    }
     delete layout.template;
     Plotly.react(ref.current, figure.data, layout, {
       responsive: true,

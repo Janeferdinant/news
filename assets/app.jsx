@@ -14,8 +14,14 @@ function Chart({ figure, theme }) {
     const color = getComputedStyle(ref.current).color;
     const layout = Object.assign({}, figure.layout, {
       paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color },
-      autosize: true, margin: { l: 50, r: 10, t: 60, b: 90 },
+      autosize: true, margin: { l: 50, r: 10, t: 70, b: 90 },
     });
+    // Plotly does not wrap titles, so break long ones before the parenthesis and left-align them
+    if (layout.title && layout.title.text) {
+      layout.title = Object.assign({}, layout.title, {
+        text: layout.title.text.replace(' (', '<br>('), x: 0.02, xanchor: 'left', font: { size: 15 },
+      });
+    }
     delete layout.template;
     Plotly.react(ref.current, figure.data, layout, { responsive: true, displayModeBar: false });
   }, [figure, theme]);
