@@ -1,3 +1,5 @@
+> **Note (2026-10-13).** The original `fake_news_dataset.csv` described below is not in this repository, and nobody remembers where it came from. `data/generate_synthetic.py` was added on 2026-10-13 to regenerate a dataset with the same seven columns from invented template text. The numbers below (20,000 rows, about 5% missing, balanced labels) are what the generator produces. The original description gave real outlet names (BBC, CNN) as examples of the `source` column; the generated data uses only fictional outlets and author names. Everything in the generated data is synthetic.
+
 Fake News Dataset Description
 Overview
 
