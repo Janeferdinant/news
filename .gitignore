@@ -7,3 +7,5 @@ __pycache__/
 .ipynb_checkpoints/
 bert_results/
 bert_logs/
+node_modules/
+outputs/models/
