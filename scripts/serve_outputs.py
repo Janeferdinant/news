@@ -2,8 +2,8 @@
 it reads outputs/*.json directly as static files.
 
     pip install flask
-    python app.py                           # serves ./outputs on http://127.0.0.1:5000
-    OUTPUT_DIR=/kaggle/working python app.py
+    python scripts/serve_outputs.py                           # serves ./outputs on http://127.0.0.1:5000
+    OUTPUT_DIR=/kaggle/working python scripts/serve_outputs.py
 """
 import json
 import os
