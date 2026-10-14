@@ -2,7 +2,7 @@
 
 # Fake News Detection Teaching Demo: feature selection with ant colony optimisation, on synthetic data
 
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-blue.svg)](https://janeferdinant.github.io/news/)
 
 ## Overview
@@ -60,7 +60,7 @@ DistilBERT is **not** part of the comparison. An earlier version of the notebook
 - **Reproducible:** the output depends only on the seed (default 42). With the defaults the file's SHA-256 is `bd1d81f9236c8ee554d32c2053f5e1f0529cfb5cc7d657deef70eb1a53b4a923`.
 - **Not committed:** the CSV is 33 MB and is git-ignored. Generate it with the command below.
 - **Split:** stratified 80/20, `random_state=42`: 16,000 train and 4,000 test articles.
-- **License and privacy:** the generator and its output are original work under CC BY-NC-SA 4.0. There is no personal data.
+- **License and privacy:** the generator and its output are original work under CC BY-NC-ND 4.0. There is no personal data.
 
 ## Results
 
@@ -119,7 +119,7 @@ scripts/build_jsx.mjs                       compiles the JSX
 app.py                                      optional local Flask server for outputs/
 docs/runs/                                  dated run logs
 requirements.txt                            pinned versions from the verified run
-LICENSE, THIRD_PARTY_NOTICES.md             CC BY-NC-SA 4.0 and third-party notices
+LICENSE, THIRD_PARTY_NOTICES.md             CC BY-NC-ND 4.0 and third-party notices
 week1_day5_ai_interventions/                unrelated teaching mini-report (see below)
 ```
 
@@ -158,7 +158,7 @@ It is not suitable for judging real news. Real misinformation detection needs re
 
 ## License
 
-Original work © Jane Rose Ferdinant, licensed CC BY-NC-SA 4.0. Third-party components retain their own licenses; see THIRD_PARTY_NOTICES.md.
+Original work © Jane Rose Ferdinant, licensed CC BY-NC-ND 4.0. Third-party components retain their own licenses; see THIRD_PARTY_NOTICES.md.
 
 ## Author
 
