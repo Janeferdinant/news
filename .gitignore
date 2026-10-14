@@ -9,3 +9,13 @@ bert_results/
 bert_logs/
 node_modules/
 outputs/models/
+# Fine-tuned DistilBERT weights and other model artefacts are never committed
+artifacts/
+*.safetensors
+*.pt
+*.bin
+# Front end
+app/frontend/node_modules/
+app/frontend/dist/
+.pytest_cache/
+.ruff_cache/

@@ -1,0 +1,4 @@
+# Tests and linting. Verified on 2026-10-14 with Python 3.11.9.
+-r requirements-distilbert.txt
+pytest==8.3.3
+ruff==0.7.4
