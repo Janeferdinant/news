@@ -1,0 +1,67 @@
+{
+  "metrics": {
+    "model": "DistilBERT",
+    "accuracy": 0.8532,
+    "precision_macro": 0.8533,
+    "recall_macro": 0.8533,
+    "f1_macro": 0.8532,
+    "per_class": {
+      "fake": {
+        "precision": 0.8563,
+        "recall": 0.849,
+        "f1": 0.8526
+      },
+      "real": {
+        "precision": 0.8503,
+        "recall": 0.8575,
+        "f1": 0.8539
+      }
+    },
+    "train_seconds": 726.8,
+    "inference_seconds": 256.6,
+    "inference_ms_per_article": 64.14,
+    "tokenise_train_seconds": 0.6,
+    "test_articles": 4000
+  },
+  "config": {
+    "base_model": "distilbert-base-uncased",
+    "seed": 42,
+    "train_subset": 1600,
+    "train_split_size": 16000,
+    "validation_subset": 400,
+    "max_len": 128,
+    "epochs_planned": 2,
+    "epochs_run": 2,
+    "batch_size": 16,
+    "learning_rate": 5e-05,
+    "optimizer": "AdamW, weight decay 0.01",
+    "schedule": "10% linear warm-up then linear decay",
+    "early_stopping": "none (fixed epochs)",
+    "stopped_by_time_budget": true,
+    "time_budget_seconds": 700.0,
+    "split": "train_test_split(df.index, test_size=0.2, random_state=42, stratify=label) as in the notebook",
+    "input": "title + ' ' + text, truncated to max_len tokens",
+    "epoch_log": [
+      {
+        "epoch": 1,
+        "steps": 100,
+        "train_loss": 0.5347,
+        "validation_accuracy": 0.8725
+      },
+      {
+        "epoch": 2,
+        "steps": 156,
+        "train_loss": 0.4405,
+        "validation_accuracy": 0.87
+      }
+    ],
+    "environment": {
+      "python": "3.11.9",
+      "torch": "2.5.1+cpu",
+      "transformers": "4.46.3",
+      "cpu_threads": 8,
+      "logical_cpus": 16,
+      "platform": "Windows 10"
+    }
+  }
+}

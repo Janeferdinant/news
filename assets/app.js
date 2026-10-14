@@ -1,6 +1,6 @@
 // Generated from assets/app.jsx by scripts/build_jsx.mjs. Do not edit.
 // Source of assets/app.js. Rebuild with: node scripts/build_jsx.mjs (see README).
-// Reads the files written by the notebook (outputs/*.json, outputs/selected_features.txt).
+// Reads the files written by the notebook and scripts (outputs/*.json, outputs/selected_features.txt).
 const {
   useState,
   useEffect,
@@ -53,6 +53,41 @@ function Chart({
     "aria-label": figure && figure.layout.title ? figure.layout.title.text : 'chart'
   });
 }
+const fmt = x => x.toFixed(4);
+const fmtTime = s => s < 1 ? (s * 1000).toFixed(0) + ' ms' : s.toFixed(1) + ' s';
+function MetricsTable({
+  metrics
+}) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "text-primary note"
+  }, metrics.label), /*#__PURE__*/React.createElement("div", {
+    className: "table-wrap"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "metrics text-primary"
+  }, /*#__PURE__*/React.createElement("caption", null, "Test split of ", metrics.test_articles.toLocaleString(), " synthetic articles; precision, recall and F1 are macro-averaged. Majority-class baseline accuracy: ", fmt(metrics.baseline_accuracy), "."), /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Model"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Accuracy"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Precision"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Recall"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "F1"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Training time"), /*#__PURE__*/React.createElement("th", {
+    scope: "col"
+  }, "Inference time (test split)"))), /*#__PURE__*/React.createElement("tbody", null, metrics.models.map(m => /*#__PURE__*/React.createElement("tr", {
+    key: m.id
+  }, /*#__PURE__*/React.createElement("th", {
+    scope: "row"
+  }, m.name), /*#__PURE__*/React.createElement("td", null, fmt(m.accuracy)), /*#__PURE__*/React.createElement("td", null, fmt(m.precision_macro)), /*#__PURE__*/React.createElement("td", null, fmt(m.recall_macro)), /*#__PURE__*/React.createElement("td", null, fmt(m.f1_macro)), /*#__PURE__*/React.createElement("td", null, fmtTime(m.train_seconds)), /*#__PURE__*/React.createElement("td", null, fmtTime(m.inference_seconds))))))), /*#__PURE__*/React.createElement("ul", {
+    className: "status-list text-primary"
+  }, metrics.models.map(m => /*#__PURE__*/React.createElement("li", {
+    key: m.id
+  }, /*#__PURE__*/React.createElement("strong", null, m.name, ":"), " ", m.status, ". ", m.note))));
+}
 function App() {
   const [theme, setTheme] = useState('modern');
   const [results, setResults] = useState(null);
@@ -63,9 +98,11 @@ function App() {
       if (!res.ok) throw new Error(url + ': HTTP ' + res.status);
       return kind === 'text' ? res.text() : res.json();
     });
-    Promise.all([get('outputs/mi_scores.json'), get('outputs/model_comparison.json'), get('outputs/selected_features.txt', 'text')]).then(([mi, comparison, features]) => setResults({
+    Promise.all([get('outputs/mi_scores.json'), get('outputs/model_comparison.json'), get('outputs/selected_features.txt', 'text'), get('outputs/model_metrics.json').catch(() => null) // optional: older output folders do not have it
+    ]).then(([mi, comparison, features, metrics]) => setResults({
       mi,
       comparison,
+      metrics,
       features: features.split(/\r?\n/).filter(Boolean)
     })).catch(err => setError(String(err.message || err)));
   }, []);
@@ -143,6 +180,8 @@ function App() {
   }), /*#__PURE__*/React.createElement(Chart, {
     figure: results.comparison,
     theme: theme
+  }), results.metrics && /*#__PURE__*/React.createElement(MetricsTable, {
+    metrics: results.metrics
   }))), /*#__PURE__*/React.createElement("section", {
     className: "bg-card card"
   }, /*#__PURE__*/React.createElement("h2", {
@@ -154,6 +193,8 @@ function App() {
   }, "Run the notebook yourself: ", /*#__PURE__*/React.createElement("a", {
     href: "https://github.com/Janeferdinant/news",
     className: "link"
-  }, "github.com/Janeferdinant/news")))));
+  }, "github.com/Janeferdinant/news")), /*#__PURE__*/React.createElement("p", {
+    className: "text-primary"
+  }, "This page is a static results view. The Flask + React app that scores pasted text with the three models runs locally; see the README."))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render( /*#__PURE__*/React.createElement(App, null));

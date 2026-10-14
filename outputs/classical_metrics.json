@@ -1,0 +1,51 @@
+{
+  "seed": 42,
+  "train_articles": 16000,
+  "test_articles": 4000,
+  "baseline_accuracy": 0.5,
+  "n_selected_features": 192,
+  "aco_validation_accuracy": 0.8234,
+  "feature_selection_seconds": 125.8,
+  "models": {
+    "logistic_regression": {
+      "accuracy": 0.84,
+      "precision_macro": 0.8403,
+      "recall_macro": 0.84,
+      "f1_macro": 0.84,
+      "per_class": {
+        "fake": {
+          "precision": 0.8505,
+          "recall": 0.825,
+          "f1": 0.8376
+        },
+        "real": {
+          "precision": 0.8301,
+          "recall": 0.855,
+          "f1": 0.8424
+        }
+      },
+      "train_seconds": 0.2,
+      "inference_seconds": 0.0018
+    },
+    "xgboost": {
+      "accuracy": 0.8385,
+      "precision_macro": 0.8385,
+      "recall_macro": 0.8385,
+      "f1_macro": 0.8385,
+      "per_class": {
+        "fake": {
+          "precision": 0.8426,
+          "recall": 0.8325,
+          "f1": 0.8375
+        },
+        "real": {
+          "precision": 0.8345,
+          "recall": 0.8445,
+          "f1": 0.8395
+        }
+      },
+      "train_seconds": 6.76,
+      "inference_seconds": 0.0085
+    }
+  }
+}
