@@ -63,3 +63,12 @@ Feature selection (clustering-based MI plus ACO) took 125.8 s. The three models 
 - Playwright on the static page `index.html` (served with `python -m http.server`) at 390 px and 1280 px: the metrics table with three models, the accuracy chart with four bars (baseline and three models), the banner, the "static results view" note, 0 px overflow. The only console message was the usual missing `favicon.ico` (404).
 
 Model weights are not committed. They were saved to `C:\...\portfolio-audit\artifacts\news\distilbert` (about 268 MB), with a copy of the notebook's pickles in `artifacts\news\classical`.
+
+## Fresh-clone check of the README commands
+
+The branch was cloned into a new folder and the README's "Getting started" commands were run in a new Python 3.11.9 virtual environment (`requirements.txt`, then `requirements-dev.txt` with the CPU PyTorch index), with the Hugging Face cache outside the clone:
+
+- Step 1: the generator printed the SHA-256 above; the notebook executed in 3.6 minutes. `mi_scores.json` and `selected_features.txt` were identical (same SHA-256); only the timings in `classical_metrics.json` and `model_metrics.json` changed, as expected.
+- Step 2: `python scripts/train_distilbert.py ...` with the README's arguments and `python scripts/build_comparison.py` ran without error. This re-run had less CPU contention, so **it completed all 200 steps (2 full epochs) without the time guard**: test accuracy 0.8522 (precision 0.8523, recall 0.8522, F1 0.8522), validation accuracy 0.8725 after both epochs, training 666 s, inference 127 s. The step-125 and step-150 losses of the first 100 steps matched the logged run exactly (the seeding is deterministic), and the 0.1-point difference in accuracy (0.8532 logged, stopped at step 156, versus 0.8522 here) comes from where the time guard stopped the first run. This re-run was **not committed**; the committed numbers are the first run's.
+- Step 3: `npm ci`, `npm run build` and `npm test` (7 passed), `pytest -q` (34 passed) and `ruff check .` (all checks passed) succeeded; `python app/server.py` served the built page and `/api/predict` returned all three models; `python scripts/check_app_parity.py --n 100` gave 0.88 (Logistic Regression) and 0.89 (XGBoost) on 100 articles.
+- Docker: not built (the Docker engine was not running).
