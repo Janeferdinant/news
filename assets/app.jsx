@@ -35,7 +35,7 @@ function App() {
     });
     Promise.all([
       get('outputs/mi_scores.json'), get('outputs/model_comparison.json'), get('outputs/selected_features.txt', 'text'),
-    ]).then(([mi, comparison, features]) => setResults({ mi, comparison, features: features.split('\n').filter(Boolean) }))
+    ]).then(([mi, comparison, features]) => setResults({ mi, comparison, features: features.split(/\r?\n/).filter(Boolean) }))
       .catch(err => setError(String(err.message || err)));
   }, []);
 
