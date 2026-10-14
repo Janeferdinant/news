@@ -1,0 +1,9 @@
+.git
+.venv
+node_modules
+app/frontend/node_modules
+app/frontend/dist
+data/fake_news_dataset.csv
+outputs/models
+artifacts
+__pycache__

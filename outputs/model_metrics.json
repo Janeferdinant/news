@@ -1,0 +1,44 @@
+{
+  "label": "Synthetic data built for teaching. These numbers say nothing about real-world fake-news detection, and near-perfect scores on synthetic data are expected.",
+  "run_date": "2026-10-14",
+  "test_articles": 4000,
+  "baseline_accuracy": 0.5,
+  "models": [
+    {
+      "id": "logistic_regression",
+      "name": "Logistic Regression",
+      "accuracy": 0.84,
+      "precision_macro": 0.8403,
+      "recall_macro": 0.84,
+      "f1_macro": 0.84,
+      "train_seconds": 0.2,
+      "inference_seconds": 0.0018,
+      "status": "Verified (re-run 2026-10-14 on regenerated synthetic data, seed=42, subset=full training split of 16,000 articles)",
+      "note": "Trained on the full training split with the ACO-selected features. Times cover the model only (TF-IDF, mutual information and ACO are separate)."
+    },
+    {
+      "id": "xgboost",
+      "name": "XGBoost",
+      "accuracy": 0.8385,
+      "precision_macro": 0.8385,
+      "recall_macro": 0.8385,
+      "f1_macro": 0.8385,
+      "train_seconds": 6.76,
+      "inference_seconds": 0.0085,
+      "status": "Verified (re-run 2026-10-14 on regenerated synthetic data, seed=42, subset=full training split of 16,000 articles)",
+      "note": "Trained on the full training split with the ACO-selected features. Times cover the model only (TF-IDF, mutual information and ACO are separate)."
+    },
+    {
+      "id": "distilbert",
+      "name": "DistilBERT",
+      "accuracy": 0.8532,
+      "precision_macro": 0.8533,
+      "recall_macro": 0.8533,
+      "f1_macro": 0.8532,
+      "train_seconds": 726.8,
+      "inference_seconds": 256.6,
+      "status": "Verified (re-run 2026-10-14 on regenerated synthetic data, seed=42, subset=1,600 of 16,000 training articles, max_len=128, epochs=2)",
+      "note": "Fine-tuned distilbert-base-uncased on a subset so that it fits a CPU time budget. Inference time includes tokenisation of the test articles."
+    }
+  ]
+}

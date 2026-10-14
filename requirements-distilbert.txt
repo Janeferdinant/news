@@ -1,0 +1,8 @@
+# DistilBERT fine-tuning and the Flask API (CPU only). Verified on 2026-10-14 with Python 3.11.9.
+# Install after requirements.txt, and use the CPU build of PyTorch:
+#   pip install -r requirements.txt
+#   pip install -r requirements-distilbert.txt --extra-index-url https://download.pytorch.org/whl/cpu
+-r requirements.txt
+torch==2.5.1
+transformers==4.46.3
+flask==3.0.3

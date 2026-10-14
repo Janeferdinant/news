@@ -1,0 +1,11 @@
+line-length = 120
+target-version = "py311"
+# The week-1 mini-report is a separate teaching folder with its own notebook and script.
+extend-exclude = ["week1_day5_ai_interventions"]
+
+[lint]
+select = ["E", "F", "W", "I", "B"]
+
+[lint.per-file-ignores]
+# Notebook cells are written for readability, not import ordering or line length.
+"*.ipynb" = ["I001", "E501"]

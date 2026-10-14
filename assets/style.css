@@ -66,3 +66,11 @@ button:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid
 .note { font-style: italic; }
 .error { font-weight: 600; }
 .link { color: inherit; text-decoration: underline; }
+
+/* Model metrics table (scrolls sideways inside its box on narrow screens) */
+.table-wrap { overflow-x: auto; margin: 12px 0; }
+table.metrics { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+table.metrics caption { text-align: left; padding-bottom: 6px; opacity: 0.85; }
+table.metrics th, table.metrics td { border-bottom: 1px solid rgba(128, 128, 128, 0.4); padding: 6px 10px; text-align: right; white-space: nowrap; }
+table.metrics th[scope="row"], table.metrics th[scope="col"]:first-child { text-align: left; }
+.status-list { font-size: 0.85rem; padding-left: 18px; }

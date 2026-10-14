@@ -1,0 +1,149 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1b2430;
+  --muted: #566274;
+  --border: #d5dae1;
+  --accent: #1d4ed8;
+  --accent-text: #ffffff;
+  --fake: #b42318;
+  --fake-bg: #fde8e6;
+  --real: #146c43;
+  --real-bg: #e0f3e8;
+  --banner-bg: #fff3cd;
+  --banner-text: #5c4400;
+  --focus: #1d4ed8;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11151b;
+    --surface: #1a212b;
+    --text: #e8ecf1;
+    --muted: #a3afbf;
+    --border: #2e3846;
+    --accent: #7aa2ff;
+    --accent-text: #0b1220;
+    --fake: #ff9d94;
+    --fake-bg: #3a1e1c;
+    --real: #7ddba8;
+    --real-bg: #17301f;
+    --banner-bg: #3a2f0b;
+    --banner-text: #ffe29a;
+    --focus: #7aa2ff;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.page { max-width: 1040px; margin: 0 auto; padding: 0 16px 32px; }
+
+.banner {
+  margin: 0 -16px;
+  padding: 10px 16px;
+  background: var(--banner-bg);
+  color: var(--banner-text);
+  font-weight: 600;
+  text-align: center;
+}
+
+.header h1 { font-size: 1.6rem; margin: 20px 0 6px; }
+.lead { margin: 0 0 16px; max-width: 70ch; color: var(--muted); }
+
+.panel, .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.field { margin-bottom: 14px; }
+label { display: block; font-weight: 600; margin-bottom: 4px; }
+
+input[type='text'], textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+textarea { resize: vertical; min-height: 140px; }
+
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.counter { margin: 4px 0 0; font-size: 0.875rem; color: var(--muted); }
+.counter.over { color: var(--fake); font-weight: 600; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+button {
+  font: inherit;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; margin: 8px 0 0; }
+
+.error {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--fake-bg);
+  color: var(--fake);
+  font-weight: 600;
+}
+
+.results h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+.cards { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+
+.card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.card h4 { margin: 14px 0 6px; font-size: 0.9rem; }
+.card.unavailable { border-style: dashed; }
+
+.verdict { display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px; }
+.label { font-weight: 700; padding: 2px 12px; border-radius: 999px; }
+.label.fake { background: var(--fake-bg); color: var(--fake); }
+.label.real { background: var(--real-bg); color: var(--real); }
+.confidence { font-size: 1.6rem; font-weight: 700; }
+
+.meter { height: 10px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.meter-fill { display: block; height: 100%; }
+.meter-fill.fake, .bar-fill.fake { background: var(--fake); }
+.meter-fill.real, .bar-fill.real { background: var(--real); }
+
+.terms { list-style: none; margin: 0; padding: 0; }
+.terms li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  align-items: center;
+  padding: 6px 0;
+  border-top: 1px solid var(--border);
+}
+.term { font-weight: 600; overflow-wrap: anywhere; }
+.pill { font-size: 0.75rem; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.fake { background: var(--fake-bg); color: var(--fake); }
+.pill.real { background: var(--real-bg); color: var(--real); }
+.bar { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.bar-fill { display: block; height: 100%; }
+
+.footer { margin-top: 28px; color: var(--muted); font-size: 0.875rem; }

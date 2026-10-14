@@ -1,0 +1,13 @@
+# Local run only (not a deployment): docker compose up --build, then open http://127.0.0.1:5000
+# Before starting, produce the artifacts (see README): outputs/models/ from the notebook and the
+# fine-tuned DistilBERT folder from scripts/train_distilbert.py.
+services:
+  news-demo:
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"   # loopback only
+    environment:
+      NEWS_MAX_CHARS: "6000"
+    volumes:
+      - ./outputs/models:/artifacts/classical:ro
+      - ${NEWS_DISTILBERT_HOST_DIR:-./artifacts/distilbert}:/artifacts/distilbert:ro
